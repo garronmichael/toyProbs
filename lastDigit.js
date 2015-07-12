@@ -45,3 +45,11 @@ var lastDigit = function(str1, str2){
 
 // console.log(lastDigit('13', '2950'));
 // console.log(Math.pow(12, 2950));
+
+// Solution
+
+var lastDigit = function(s1, s2) {  
+  return +(s2 === '0') || 
+         Math.pow(s1.slice(-1), s2.slice(-2) % 4 || 4) % 10;
+         // why does s2.slice(-2) % 4 work?
+};
