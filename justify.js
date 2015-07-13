@@ -57,15 +57,12 @@ Have fun :)
  * @param {String} str - inital string
  * @param {Number} len - line length
  */
-var justify = function(str, len) {  // Your code goes here
+var justify = function(str, len) {  
   str = str.split(' ');
   var curLine = str[0];
   var justified = '';
   function addSpaces(curLine, numSpaces) {
-    if(numSpaces <= 0) {
-      return curLine;
-    }
-    curLine = curLine.split(' ')
+    curLine = curLine.split(' ');
     while(numSpaces > 0) {
       for(var j = 0; j < curLine.length - 1; j++) {
         if(numSpaces <= 0) {
@@ -83,7 +80,7 @@ var justify = function(str, len) {  // Your code goes here
       curLine += ' ' + str[i];
     } else {
       var spacesToAdd = len - curLine.length;
-      justified += addSpaces(curLine, spacesToAdd) + '\n';
+      justified += spacesToAdd > 0 ? addSpaces(curLine, spacesToAdd) + '\n' : curLine + '\n';
       curLine = str[i];
     }
   }
@@ -93,7 +90,7 @@ var justify = function(str, len) {  // Your code goes here
 console.log(justify('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam faucibus dui leo, et malesuada nisi molestie ut. Etiam sit amet fermentum ligula, id scelerisque metus. Pellentesque rhoncus orci quis nisi convallis volutpat. Vestibulum a orci commodo, condimentum leo sed, ultricies nunc. Ut eu lobortis leo. Nam a erat ultricies ipsum eleifend imperdiet. Aliquam faucibus rutrum arcu, condimentum ultricies tortor ornare ut. Phasellus placerat eleifend nunc eget luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tortor urna, iaculis id rutrum vitae, dignissim quis dolor.', 30))
 
 
-console.log(justify('AB C', 6));
+console.log(justify('AB C', 2));
 
 
 
