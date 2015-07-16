@@ -47,3 +47,34 @@ var countChange = function(money, coins) {
 console.log(countChange(4, [1,2]));
 console.log(countChange(10, [5,2,3]));
 console.log(countChange(11, [5,7]));
+
+// Solution 1
+
+var countChange = function(money, coins) {
+    return findComboCount(money, coins, 0);
+}
+
+function findComboCount(money, coin, index) {
+  if(money === 0){
+    return 1;
+  }
+  else if (money < 0 || coin.length == index) {
+    return 0;
+  }
+  else {
+    var withFirstCoin = findComboCount(money - coin[index], coin, index);
+    var withoutFirstCoin = findComboCount(money, coin, index + 1);
+    return withFirstCoin + withoutFirstCoin;
+  }
+} 
+
+// Solution 2
+
+var countChange = function(money, coins) {
+  if(money < 0 || coins.length === 0)
+    return 0
+  else if(money === 0)
+    return 1
+  else
+    return countChange(money - coins[0], coins) + countChange(money, coins.slice(1))
+}
