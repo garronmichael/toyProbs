@@ -32,7 +32,7 @@ var helloWorld = function () {
 
 console.log(helloWorld());
 
-// Solution
+// Solution (My solution is correct but there is apparently a platform bug)
 
 var helloWorld = function () {
   var one = +true
