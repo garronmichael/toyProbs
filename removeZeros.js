@@ -28,5 +28,27 @@ function removeZeros(array) {
   // to use any Array or Object prototype methods such as .shift(), .push(), etc
   
   // the correctly sorted array should be returned.
+
+  // iterate over the array in reverse
+  for(let i = array.length; i > -1; i--) {
+    // if array[i] is 0 or '0'
+    if(array[i] === 0 || array[i] === '0') {
+      // store the indx
+      var j = i;
+      // while the indx is before the final array indx and the previous position is not 0 or '0'
+      while(j < array.length - 1 && array[j + 1] !== 0 && array[j + 1] !== '0') {
+        // swap array[i] with the previous value
+        let temp = array[j + 1];
+        array[j + 1] = array[j];
+        array[j] = temp;
+        j++;
+      }
+    }
+  }
+  // return the sorted array 
   return array;
 }
+
+console.log(removeZeros([1, 0, 1, '0', 0, 12, 72, 15, '0']));
+
+
