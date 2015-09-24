@@ -14,62 +14,33 @@ occur in one of the triplets given to you.
 */
 
 var recoverSecret = function(triplets) {
-  var secret = 'whatisup';
   var scrambled = [];
+  triplets.forEach(function(triplet) {
+    triplet.forEach(function(curChar) {
+      var curCharIdx = scrambled.indexOf(curChar);
+      if(curCharIdx < 0) {
+        scrambled.push(curChar);
+      }
+    });
+  });
+
   triplets.forEach(function(triplet) {
     triplet.forEach(function(curChar, index, triplet) {
       var curCharIdx = scrambled.indexOf(curChar);
-      var after = triplet[index - 1];
-      var before = triplet[index + 1];
-      var afterIdx = scrambled.indexOf(after);
-      var beforeIdx = scrambled.indexOf(before);
-      if(beforeIdx > -1 || afterIdx > -1) {
-        if(beforeIdx > -1 && curCharIdx > beforeIdx) {
-          var rest = scrambled.splice(beforeIdx);
-          scrambled.push(curChar);
-          scrambled = scrambled.concat(rest);
-        }
-        if(afterIdx > -1 && curCharIdx < afterIdx) {
-          var rest = scrambled.splice(0, afterIdx + 1);
-          scrambled.splice(curCharIdx, 1);
-          scrambled.shift(curChar);
-          scrambled = rest.concat(scrambled); 
-        }
-      } else {
-        scrambled.push(curChar);
-        console.log('pushed', curChar);
+      var charAfter = triplet[index - 1];
+      var charBefore = triplet[index + 1];
+      var curCharIsAfterIdx = scrambled.indexOf(charAfter);
+      var curCharIsBeforeIdx = scrambled.indexOf(charBefore);
+      if(curCharIsBeforeIdx > -1 && curCharIdx > curCharIsBeforeIdx) {
+        scrambled.splice(curCharIdx, 1);
+        scrambled.splice(curCharIsBeforeIdx, 0, curChar);
+        curCharIsAfterIdx = scrambled.indexOf(charAfter);
+        curCharIdx = scrambled.indexOf(curChar);
       }
-      // else if(index === 0) {
-      //   console.log('scram', scrambled);
-      //   console.log('first repeat', char);
-      //   if(scrambledCharIdx > scrambled.indexOf(triplet[index + 1])) {
-      //     var rest = scrambled.splice(scrambled.indexOf(triplet[index + 1]));
-      //     scrambled.splice(scrambledCharIdx, 1);
-      //     scrambled.push(char);
-      //     scrambled.concat(rest); 
-      //   }
-      //   console.log('scram', scrambled);
-      // } else if(index === 1) {
-      //   if(scrambledCharIdx > scrambled.indexOf(triplet[index + 1])) {
-      //     var rest = scrambled.splice(scrambled.indexOf(triplet[index + 1]));
-      //     scrambled.splice(scrambledCharIdx, 1);
-      //     scrambled.push(char);
-      //     scrambled.concat(rest); 
-      //   }
-      //   if(scrambledCharIdx < scrambled.indexOf(triplet[index - 1])) {
-      //     var rest = scrambled.splice(0, scrambled.indexOf(triplet[index - 1]));
-      //     scrambled.splice(scrambledCharIdx, 1);
-      //     scrambled.shift(char);
-      //     scrambled = rest.concat(scrambled); 
-      //   }
-      // } else if(index === 2) {
-      //   if(scrambledCharIdx < scrambled.indexOf(triplet[index - 1])) {
-      //     var rest = scrambled.splice(0, scrambled.indexOf(triplet[index - 1]));
-      //     scrambled.splice(scrambledCharIdx, 1);
-      //     scrambled.shift(char);
-      //     scrambled = rest.concat(scrambled); 
-      //   }
-      // }
+      if(curCharIsAfterIdx > -1 && curCharIdx < curCharIsAfterIdx) {
+        scrambled.splice(curCharIdx, 1);
+        scrambled.splice(curCharIsAfterIdx, 0, curChar);
+      }
     });
   });
   return scrambled.join('');
@@ -87,3 +58,4 @@ triplets1 = [
 ]
 
 console.log(recoverSecret(triplets1)) // Should be true
+
