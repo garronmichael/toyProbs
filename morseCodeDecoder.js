@@ -88,4 +88,16 @@ var decodeMorse = function(morseCode){
   return morseCode.join('').replace(/\s+/g, ' ');
 };
 
+// latest soution from me
+decodeMorse = function(morseCode){
+  if(MORSE_CODE[morseCode]) {
+    return MORSE_CODE[morseCode];
+  }
+ var letters = morseCode.trim().split(' ');
+ letters.forEach( (letter, index, letters) => {
+    letters[index] = MORSE_CODE[letter] || ' ';
+ });
+ return letters.join('').replace(/\s+/g, ' ');
+}
+
 console.log(decodeMorse('-... . -.--   .--- ..- -.. .'));
