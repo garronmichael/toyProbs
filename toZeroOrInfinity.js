@@ -49,9 +49,9 @@ function going(n) {
     }
   }
   
-  // console.log('factorial', factorial(n));
-  // console.log('factorial sum', factorialSum(n));
-  // console.log('output', 1 / factorial(n) * factorialSum(n) );
+  console.log('factorial', factorial(n));
+  console.log('factorial sum', factorialSum(n));
+  console.log('output', 1 / factorial(n) * factorialSum(n) );
   var value = 1 / factorial(n) * factorialSum(n);
 
   return parseFloat( value.toString().split('').slice(0, 8).join('') );
@@ -61,3 +61,18 @@ console.log(going(5)); // 1.275
 console.log(going(6)); // 1.2125
 console.log(going(7)); // 1.173214
 console.log(going(10000));
+
+// Solution
+
+function going (n) {
+  var result = 1
+  var acc = 1
+
+  while (n > 1) {
+    acc *= 1 / n
+    result += acc
+    n--
+  }
+
+  return Math.floor(result * 1e6) / 1e6
+}
