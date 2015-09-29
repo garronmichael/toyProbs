@@ -70,7 +70,7 @@ function Player(){}
 // Decide who move first - player or opponent (true if player)
 Player.prototype.firstmove = function(cakes){
   // I wish to move first
-  if(cakes === 5) {
+  if(cakes <= 9 && cakes > 2 && cakes !== 6 || cakes % 3 === 0 && cakes !== 6 && cakes !== 15) {
     return true;
   } else {
     return false;
@@ -81,7 +81,17 @@ Player.prototype.move = function(cakes, last){
   // I'm not greedy
   if(cakes === 5) {
     return 3;
-  } 
+  } else if (cakes === 4) {
+    return 3;
+  } else if (cakes === 3) {
+    return 1;
+  } else if (cakes === 7) {
+    return last === 1 ? 2 : 1;
+  } else if (cakes === 9) {
+    return 3;
+  } else {
+    return last === 3 ? 2: 3;
+  }
 }
 
 
@@ -134,5 +144,9 @@ function Game(n, debug){
   }
 }
 
-console.log(Game(5, true));
+// console.log(Game(5, true));
 // console.log(Game(6, true));   
+// console.log(Game(7, true));   
+// console.log(Game(8, true));      
+// console.log(Game(9, true));
+console.log(Game(21, true));         
