@@ -144,9 +144,9 @@ function Game(n, debug){
   }
 }
 
-// console.log(Game(5, true));
-// console.log(Game(6, true));   
-// console.log(Game(7, true));   
-// console.log(Game(8, true));      
-// console.log(Game(9, true));
-console.log(Game(21, true));         
+console.log(Game(8, true));
+console.log(Game(9, true));   
+console.log(Game(10, true));   
+console.log(Game(11, true));      
+console.log(Game(12, true));
+console.log(Game(12, true));         
