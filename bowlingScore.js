@@ -37,11 +37,36 @@ number of pins knocked out per roll is valid
 */
 
 var bowlingScore = function(rolls) {
-  var scores = [];
-  rolls.forEach( (v, i, a) => {
 
-  });
-  return scores.reduce( (prev, cur) => {
-    return prev + cur;
-  });
-}
+  function roundsToRolls(rolls) {
+    var rounds = [];
+    var round = [];
+    rolls.forEach(function(v, i, a) {
+      round.push(v);
+      if(round.length === 2) {
+        rounds.push(round.splice(0));
+      }
+    });
+
+    if(round.length) {
+      rounds.push(round.splice(0));
+    } 
+    return rounds;
+  }
+  
+  function roundsToScore(rounds) {
+    rounds.forEach(function(v, i, a) {
+      if(v[0] === 10) {
+        a[i] = v[0] + a[i + 1]
+      }
+      a[i] = v[0] + v[1];
+    });
+  }
+
+};
+
+console.log(bowlingScore([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
+console.log(bowlingScore([9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9]));
+
+
+
