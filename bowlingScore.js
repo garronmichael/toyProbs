@@ -38,12 +38,12 @@ number of pins knocked out per roll is valid
 
 var bowlingScore = function(rolls) {
 
-  function roundsToRolls(rolls) {
+  function rollsToRounds(rolls) {
     var rounds = [];
     var round = [];
     rolls.forEach(function(v, i, a) {
       round.push(v);
-      if(round.length === 2) {
+      if(round.length === 2 || v === 10) {
         rounds.push(round.splice(0));
       }
     });
@@ -54,19 +54,28 @@ var bowlingScore = function(rolls) {
     return rounds;
   }
   
-  function roundsToScore(rounds) {
-    rounds.forEach(function(v, i, a) {
-      if(v[0] === 10) {
-        a[i] = v[0] + a[i + 1]
+  function roundsToScore(rolls) {
+    rolls.forEach(function(v, i, a) {
+      if(v.reduce(function(p, c) { return p + c; }) === 10) {
+        
       }
-      a[i] = v[0] + v[1];
+
+    //   if(v[0] === 10) {
+    //     a[i] = v[0] + a[i + 1][0] + a[i + 2];
+    //   } else {
+    //     a[i] = v[0] + v[1]; 
+    //   }
     });
   }
 
+  return rollsToRounds(rolls);
+
 };
 
-console.log(bowlingScore([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
-console.log(bowlingScore([9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9]));
-
+console.log(bowlingScore([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])); // 0
+console.log(bowlingScore([9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9])); // 190
+console.log(bowlingScore([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])); // 300
+console.log(bowlingScore([0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 10,1,0])); // 11
+console.log(bowlingScore([0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 10, 1,0])); // 12
 
 
