@@ -14,3 +14,37 @@ Find whether there is a route between two nodes of the graph.
 
 */
 
+//a constructor for adding a node to the tree
+var Node = function(value, edges){  
+  nodes[value] = {
+    value: value,
+    edges: edges
+  };
+  return nodes[value];
+}
+
+//an object containing all the nodes in the tree
+var nodes = {};
+
+//a and b are of type Node
+//find out if there is a route from a to b
+var getRoute = function(a,b){
+  var hasRoute = false;
+  var visited = [];
+  function recurse(node) {
+    visited.push(node.value);
+    if(node.value === b.value) {
+      hasRoute = true;
+      return;
+    } 
+    if(node.edges) {
+      for(var i = 0; i < node.edges.length; i++) {
+        if(visited.indexOf(node.edges[i].value) < 0) {
+          recurse(node.edges[i]);
+        }
+      }
+    }
+  }
+  recurse(a);
+  return hasRoute;
+}
