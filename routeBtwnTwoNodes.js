@@ -48,3 +48,15 @@ var getRoute = function(a,b){
   recurse(a);
   return hasRoute;
 }
+
+// Solution
+
+var nodes = {};
+var Node = (value, edges) => nodes[value] = {value: value, edges: edges};
+var getRoute = function(a, b, found = []) {
+  return a.edges == null ? false : a.edges.some(n => {
+    if(found.indexOf(n) > -1) return false;
+    found.push(n);
+    return n == b || getRoute(n, b, found);
+  });
+}
