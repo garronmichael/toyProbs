@@ -41,32 +41,42 @@ var bowlingScore = function(rolls) {
   function rollsToFrameScore(rolls) {
     var frameScores = [];
     var frame = 0;
+    var ball = 0;
+
     for(var i = 0; i < rolls.length; i++) {
+      // if we are have calculated the 10th frame
+      if(frame > 9) {
+        // break the loop
+        break;
+      }
       var roll = rolls[i];
       frameScores[frame] = frameScores[frame] || 0;
       // add the roll to the current frame;
       frameScores[frame] += roll;
+      // add a ball
+      ball++;
       // if roll is a strike)
       if(roll === 10) {
         // add the next two rolls to the current frame
         frameScores[frame] += (rolls[i + 1] || 0) + (rolls[i + 2] || 0);
         // go the next frame
         frame++;
+        // reset ball
+        ball = 0;
       // if roll is a spare 
       } else if(frameScores[frame] === 10 && roll !== 10) {
         // add the next roll to the current frame
         frameScores[frame] += (rolls[i + 1] || 0);
         // go to the next frame
         frame++;
-      // otherwise if we are on an odd index
-      } else if(i % 2 !== 0) {
+        // reset ball
+        ball = 0;
+      // otherwise if ball === 2
+      } else if(ball === 2) {
         // go to the next frame;
         frame++;
-      }
-      // if we are have calculated the 10th frame
-      if(frame > 9) {
-        // break the loop
-        break;
+        // reset ball
+        ball = 0;
       }
     }
     return frameScores;
@@ -81,5 +91,6 @@ console.log(bowlingScore([9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9,1, 9]))
 console.log(bowlingScore([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])); // 300
 console.log(bowlingScore([0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 10,1,0])); // 11
 console.log(bowlingScore([0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 10, 1,0])); // 12
+console.log(bowlingScore([ 10, 5, 5, 10, 5, 5, 10, 5, 5, 10, 5, 5, 10, 5, 5, 10 ])); // 200
 
 
