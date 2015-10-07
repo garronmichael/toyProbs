@@ -93,4 +93,31 @@ console.log(bowlingScore([0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 10,1,0]))
 console.log(bowlingScore([0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 10, 1,0])); // 12
 console.log(bowlingScore([ 10, 5, 5, 10, 5, 5, 10, 5, 5, 10, 5, 5, 10, 5, 5, 10 ])); // 200
 
+// Solution
+
+var bowlingScore = function(rolls) {
+
+  var sum = function(numbers) {
+    return numbers.reduce( function (a,b) { return a+b })
+  }
+  var isSpare = function(rolls) {
+    return 10 === sum(rolls.slice(0, 2))
+  }
+  var isStrike = function(rolls) {
+    return 10 === rolls[0]
+  }
+
+  var calcScore = function(rolls, frame) {
+    if(frame === 10)
+       return sum(rolls)
+    else if (isStrike(rolls))
+        return sum(rolls.slice(0, 3)) + calcScore(rolls.slice(1), frame + 1)
+    else if (isSpare(rolls))
+        return sum(rolls.slice(0, 3)) + calcScore(rolls.slice(2), frame + 1)
+    else
+       return sum(rolls.slice(0, 2)) + calcScore(rolls.slice(2), frame + 1)
+  }
+  return calcScore(rolls,1)
+}
+
 
