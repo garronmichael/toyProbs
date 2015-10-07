@@ -38,37 +38,41 @@ number of pins knocked out per roll is valid
 
 var bowlingScore = function(rolls) {
 
-  function rollsToRounds(rolls) {
-    var rounds = [];
-    var round = [];
-    rolls.forEach(function(v, i, a) {
-      round.push(v);
-      if(round.length === 2 || v === 10) {
-        rounds.push(round.splice(0));
+  function rollsToFrameScore(rolls) {
+    var frameScores = [];
+    var frame = 0;
+    for(var i = 0; i < rolls.length; i++) {
+      var roll = rolls[i];
+      frameScores[frame] = frameScores[frame] || 0;
+      // add the roll to the current frame;
+      frameScores[frame] += roll;
+      // if roll is a strike)
+      if(roll === 10) {
+        // add the next two rolls to the current frame
+        frameScores[frame] += (rolls[i + 1] || 0) + (rolls[i + 2] || 0);
+        // go the next frame
+        frame++;
+      // if roll is a spare 
+      } else if(frameScores[frame] === 10 && roll !== 10) {
+        // add the next roll to the current frame
+        frameScores[frame] += (rolls[i + 1] || 0);
+        // go to the next frame
+        frame++;
+      // otherwise if we are on an odd index
+      } else if(i % 2 !== 0) {
+        // go to the next frame;
+        frame++;
       }
-    });
-
-    if(round.length) {
-      rounds.push(round.splice(0));
-    } 
-    return rounds;
-  }
-  
-  function roundsToScore(rolls) {
-    rolls.forEach(function(v, i, a) {
-      if(v.reduce(function(p, c) { return p + c; }) === 10) {
-        
+      // if we are have calculated the 10th frame
+      if(frame > 9) {
+        // break the loop
+        break;
       }
-
-    //   if(v[0] === 10) {
-    //     a[i] = v[0] + a[i + 1][0] + a[i + 2];
-    //   } else {
-    //     a[i] = v[0] + v[1]; 
-    //   }
-    });
+    }
+    return frameScores;
   }
 
-  return rollsToRounds(rolls);
+  return rollsToFrameScore(rolls).reduce(function(p, c){return p + c});
 
 };
 
