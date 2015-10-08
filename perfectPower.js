@@ -10,8 +10,7 @@ Note: For a perfect power, there might be several pairs. For example 81 = 3^4 = 
 */
 
 var isPP = function(n){
-  for(var base = 2; base < n; base++) {
-    var exponent = 2;
+  for(var base = 2, exponent = 2; base < n; base++, exponent = 2) {
     var product = Math.pow(base, exponent);
     while(product <= n) {
       if(product === n) {
