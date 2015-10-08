@@ -26,3 +26,12 @@ var isPP = function(n){
 console.log(isPP(4)); // [2,2]
 console.log(isPP(9)); // [3, 2]
 console.log(isPP(5)); // null
+
+// Solution 
+
+function isPP(n) {
+  for (var m = 2; m * m <= n; ++ m)
+    for (var k = 2; Math.pow(m, k) <= n; ++ k)
+      if (Math.pow(m, k) == n) return [m, k];
+  return null;
+}
