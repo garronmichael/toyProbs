@@ -11,8 +11,27 @@ Empty list is considered to have zero greatest sum. Note that the empty list or 
 */
 
 var maxSequence = function(arr){
+  var maxSum = 0;
+  var maxSubarray;
+  var subarray = []; 
   if(arr.length) {
-  } else {
-    return 0;
-   }
+    for(var i = 0; i < arr.length; i++) {
+      if(arr[i] > 0) {
+        for(var j = i; j < arr.length; j++) {
+          subarray.push(arr[j]);
+          if(arr[j] > 0) {
+            var curSum = subarray.reduce(function(p, c) { return p + c });
+            if(curSum > maxSum) {
+              maxSubarray = subarray.slice();
+              maxSum = curSum;
+            }
+          }
+        }
+      }
+      subarray = [];
+    }
+  } 
+  return maxSum > 0 ? maxSum : 0;
 }
+
+console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4])) // 6
