@@ -35,29 +35,38 @@ When you will implement this correctly, you will not only get some points, but a
 
 var Mongo = {
   'isValid' : function(s){
-      return false;
+      return typeof s === 'string' && s.length === 24 ? !s.match(/[^\da-f]/g) : false;
   },
   'getTimestamp' : function(s){
-      if(this.isValid(s)) {
-        var dateBits = this.convertToBits(s).slice(0, 33);
-        return new Date(dateBits);
-      } else {
-        return false;
-      }
-  },
-  'convertToBits' : function(s){
-      var converted = '';
-      var dict = {a: 10, b: 11, c: 12, d: 13, e: 14, f: 15}
-      for(var i = 0; i < s.length; i++) {
-        var value = dict[s[i]] || s[i];
-        var bits = parseInt(value).toString(2).split('');
-        while(bits.length < 4) {
-          bits.splice(0, 0, '0');
-        }
-        converted += bits.join('');
-      }
-      return converted;
+      return this.isValid(s) ? new Date(parseInt(s.substring(0, 8), 16) * 1000) : false;
   }
+  // 'convertToBits' : function(s){
+  //     var converted = '';
+  //     var dict = {a: 10, b: 11, c: 12, d: 13, e: 14, f: 15}
+  //     for(var i = 0; i < s.length; i++) {
+  //       var value = dict[s[i]] || s[i];
+  //       var bits = parseInt(value).toString(2).split('');
+  //       while(bits.length < 4) {
+  //         bits.splice(0, 0, '0');
+  //       }
+  //       converted += bits.join('');
+  //     }
+  //     return converted;
+  // }
 };
 
-console.log(Mongo.convertToBits('507f1f77bcf86cd799439011'));
+// console.log(Mongo.isValid('507f1f77bcf86cd799439011')); // true
+// console.log(Mongo.isValid('507f1f77bcf86cz799439011')); // false
+// console.log(Mongo.isValid('507f1f77bcf86cd79943901')); // false
+// console.log(Mongo.isValid('111111111111111111111111')); // true
+// console.log(Mongo.isValid(111111111111111111111111)); // false
+// console.log(Mongo.isValid('507f1f77bcf86cD799439011')); // false (we arbitrarily only allow lowercase letters)
+
+console.log(Mongo.getTimestamp('507f1f77bcf86cd799439011')); // Wed Oct 17 2012 21:13:27 GMT-0700 (Pacific Daylight Time)
+console.log(Mongo.getTimestamp('507f1f77bcf86cz799439011')); // false
+console.log(Mongo.getTimestamp('507f1f77bcf86cd79943901')); // false
+console.log(Mongo.getTimestamp('111111111111111111111111')); // Sun Jan 28 1979 00:25:53 GMT-0800 (Pacific Standard Time)
+console.log(Mongo.getTimestamp(111111111111111111111111)); // false
+
+
+
