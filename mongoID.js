@@ -68,5 +68,16 @@ console.log(Mongo.getTimestamp('507f1f77bcf86cd79943901')); // false
 console.log(Mongo.getTimestamp('111111111111111111111111')); // Sun Jan 28 1979 00:25:53 GMT-0800 (Pacific Standard Time)
 console.log(Mongo.getTimestamp(111111111111111111111111)); // false
 
+// Solution
+
+var Mongo = {
+  isValid: function(s){
+    return /^[a-f\d]{24}$/.test(s);
+  },
+  getTimestamp: function(s){
+    return this.isValid(s) && new Date(parseInt(s.substr(0, 8), 16) * 1000);
+  }
+}
+
 
 
