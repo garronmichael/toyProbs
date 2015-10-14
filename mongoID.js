@@ -38,6 +38,26 @@ var Mongo = {
       return false;
   },
   'getTimestamp' : function(s){
-      return new Date();
+      if(this.isValid(s)) {
+        var dateBits = this.convertToBits(s).slice(0, 33);
+        return new Date(dateBits);
+      } else {
+        return false;
+      }
+  },
+  'convertToBits' : function(s){
+      var converted = '';
+      var dict = {a: 10, b: 11, c: 12, d: 13, e: 14, f: 15}
+      for(var i = 0; i < s.length; i++) {
+        var value = dict[s[i]] || s[i];
+        var bits = parseInt(value).toString(2).split('');
+        while(bits.length < 4) {
+          bits.splice(0, 0, '0');
+        }
+        converted += bits.join('');
+      }
+      return converted;
   }
-}
+};
+
+console.log(Mongo.convertToBits('507f1f77bcf86cd799439011'));
