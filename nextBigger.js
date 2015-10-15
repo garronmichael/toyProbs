@@ -40,3 +40,30 @@ function nextBigger(n){
 // console.log(nextBigger(531)); // -1
 console.log(nextBigger(1234567890)); // expected: 1234567908 got: 123456798
 // console.log(nextBigger(59884848459853)); // expected: 59884848483559 got: 84459853598848
+
+// Solution #1
+
+function nextBigger(n){
+  var digits = (''+n).split('').map((e) => +e);
+  var max = 0;
+  for (var cut = digits.length - 1; digits[cut] >= max; cut --) {
+    if (digits[cut] > max) max = digits[cut];
+  }
+  if (cut == -1) return -1;
+  var head = (cut > 0) ? digits.slice(0,cut) : [];
+  var paste = 0;
+  var limit = digits[cut];
+  var best = 10;
+
+  var tail = digits.slice(cut+1);
+  for (var i = 0; i<tail.length; i++) {
+    if(tail[i] > limit && tail[i] < best) {
+      best = tail[i];
+      paste = i;
+    }
+  }
+  tail[paste] = limit;
+  tail = tail.sort();
+  var headVal = (head.reduce((r,e) => r*10+e, 0)*10+best);
+  return tail.reduce((r,e) => r*10+e, headVal);
+}
