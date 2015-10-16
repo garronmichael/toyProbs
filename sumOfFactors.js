@@ -95,3 +95,25 @@ function sumOfDivided(lst) {
 // console.log(sumOfDivided([ 107, 158, 204, 100, 118, 123, 126, 110, 116, 100 ])); // Expected: [[2,1032],[3,453],[5,310],[7,126],[11,110],[17,204],[29,116],[41,123],[59,118],[79,158],[107,107]], instead got: [[2,1032],[3,453],[5,310],[7,126],[11,110],[17,204],[29,116],[41,123],[59,118],[79,158]]
 console.log(sumOfDivided([ -29804, -4209, -28265, -72769, -31744 ])) // Expected: [[2,-61548],[3,-4209],[5,-28265],[23,-4209],[31,-31744],[53,-72769],[61,-4209],[1373,-72769],[5653,-28265],[7451,-29804]], instead got: [[-7451,-29804],[-5653,-28265],[-1373,-72769],[-61,-4209],[-53,-72769],[-31,-31744],[-23,-4209],[-5,-28265],[-3,-4209],[-2,-61548]]
 
+// Solution
+
+function sumOfDivided(lst) {
+    if(lst.length == 0) { return []; }
+    var m = Math.max.apply(null, lst.map(Math.abs)),
+        primes = [],
+        marked = Array(m+1);
+
+    for(var i = 2; i <= m; ++i) {
+        if(marked[i]) continue;
+
+        var sum = 0, isMul = false;
+        lst.forEach(function(n) { if(n % i == 0) { sum += n; isMul = true; } });
+        if(isMul) primes.push([i, sum]);
+
+        for(var j = 2*i; j <= m; j += i) {
+            marked[j] = true;
+        }
+    }
+
+    return primes;
+}
