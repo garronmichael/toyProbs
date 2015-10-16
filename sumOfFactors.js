@@ -50,17 +50,10 @@ function sumOfDivided(lst) {
 
   function findFactors(n) {
     var factors = [];
-    if(n > 0) {
-      for(let i = 2; i <= n; i++) {
-        if(n % i === 0) {
-          factors.push(i);
-        }
-      }
-    } else {
-      for(let i = -2; i >= n; i--) {
-        if(n % i === 0) {
-          factors.push(i * -1);
-        }
+    n = Math.abs(n);
+    for(let i = 2; i <= n; i++) {
+      if(n % i === 0) {
+        factors.push(i);
       }
     }
     return factors;
