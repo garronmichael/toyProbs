@@ -44,18 +44,22 @@ const dict = {
 
 
 function parseInt(string) {
-  var num = string.split(/\W/);
+  var num = string.replace(' and ', ' ').split(/\W/);
   var output = num.map( (v, i, a) => {
     return v = dict[v];
   });
+  console.log(output);
   output.forEach( (v, i, a) => {
     (a[i] > a[i - 1]) ? (a[i] = a[i - 1] * a[i], a[i - 1] = 0) : a[i];
   });
 
-  return output.reduce( (p, c) => { return p + c });
+  return output.reduce( (p, c) => { 
+    return p + c;
+  });
 }
 
 console.log(parseInt('one')); // 1
 console.log(parseInt('twenty')); // 20
 console.log(parseInt('two hundred forty-six')); // 246
-console.log(parseInt('one million three hundred thousand six'));
+console.log(parseInt('one million three hundred thousand and six'));
+console.log(parseInt('twenty-six thousand three hundred and fifty-nine')); // Expected: 26359, Got: 6379
