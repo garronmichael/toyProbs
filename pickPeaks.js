@@ -23,14 +23,48 @@ function pickPeaks(arr){
     pos: [],
     peaks: []
   }
+  var ascending = false;
+  var descending = false;
+  var plateau = false;
+  var plateauPos;
+  var plateauVal;
   for(let i = 1; i < arr.length - 1; i++) {
     let next = arr[i + 1];
     let cur = arr[i];
     let prev = arr[i -1];
-    if(next < cur) {
+    if(cur > prev) {
+      ascending = true;
+      descending = false;
+      plateau = false;
+    } 
+    if(cur < prev) {
+      ascending = false;
+      descending = true;
+      plateau = false;
+    } 
+    if(cur === prev && !plateau && ascending) {
+      plateau = true;
+      plateauPos = i - 1;
+      plateauVal = prev;
+    } 
+    if(next < cur && ascending && !plateau) {
+      ascending = false;
+      descending = true;
       output.pos.push(i);
       output.peaks.push(cur);
+    }
+    if(next < cur && plateau) {
+      ascending = false;
+      descending = true;
+      plateau = false;
+      output.pos.push(plateauPos);
+      output.peaks.push(plateauVal);
+      plateauPos = plateauVal = 0;
     }
   }
   return output;
 }
+
+// console.log(pickPeaks([3,2,3,6,4,1,2,3,2,1,2,3])); // {pos:[3,7],peaks:[6,3]} PASSED
+// console.log(pickPeaks([ 3, 2, 3, 6, 4, 1, 2, 3, 2, 1, 2, 2, 2, 1 ])); //  {"pos":[3,7,10],"peaks":[6,3,2]} PASSED
+console.log(pickPeaks([ 2, 1, 3, 2, 2, 2, 2, 1 ])); // {"pos":[2],"peaks":[3]}, instead got: {"pos":[2,3],"peaks":[3,2]}
