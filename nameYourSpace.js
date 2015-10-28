@@ -17,7 +17,29 @@ namespace(stuff, 'moreStuff.name') # returns 'the stuff'
 namesace(stuff, 'otherStuff.id') # returns undefined
 
 */
-
+var root = {};
 function namespace(root, path, value){
-  
+  path = path.split('.');
+  var set = function(obj, path, value) {
+    if(path.length < 1) {
+      return root;
+    } else if(path.length === 1) {
+      obj[path[0]] = value;
+    } else {
+      obj[path[0]] = {};
+    }
+    return set(obj[path[0]], path.slice(1), value);
+  }
+
+  var get = function(obj, path) {
+    
+  }
+
+  if(value) {
+    return set(root, path, value);
+  } else {
+
+  }
 }
+
+console.log(namespace(root, 'moreStuff.name', 'the stuff'));
