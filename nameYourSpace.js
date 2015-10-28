@@ -32,14 +32,22 @@ function namespace(root, path, value){
   }
 
   var get = function(obj, path) {
-    
+    if(!obj) {
+      return obj;
+    }
+    if(path.length === 1) {
+      return obj[path[0]];
+    } 
+    return get(obj[path[0]], path.slice(1));
   }
 
   if(value) {
     return set(root, path, value);
   } else {
-
+    return get(root, path);
   }
 }
 
-console.log(namespace(root, 'moreStuff.name', 'the stuff'));
+console.log(namespace(root, 'moreStuff.name', 'the stuff')); // {moreStuff: {name: 'the stuff'}}
+console.log(namespace(root, 'moreStuff.name')); // 'the stuff'
+console.log(namespace(root, 'otherStuff.id')); // undefined
