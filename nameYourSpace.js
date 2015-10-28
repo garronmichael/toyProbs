@@ -19,6 +19,7 @@ namesace(stuff, 'otherStuff.id') # returns undefined
 */
 var root = {};
 function namespace(root, path, value){
+
   var set = function(obj, path, value) {
     if(path.length < 1) {
       return root;
@@ -45,3 +46,14 @@ function namespace(root, path, value){
 console.log(namespace(root, 'moreStuff.name', 'the stuff')); // {moreStuff: {name: 'the stuff'}}
 console.log(namespace(root, 'moreStuff.name')); // 'the stuff'
 console.log(namespace(root, 'otherStuff.id')); // undefined
+
+// Solution
+
+function namespace(root, path, value){
+  return path.split('.').reduce(function(prev, key, i, arr) {
+    if (i == arr.length - 1)
+      return value ? (prev[key] = value) : prev[key];
+    return (prev[key] = {});
+  }, root);
+}
+
