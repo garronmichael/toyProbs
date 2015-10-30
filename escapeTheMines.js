@@ -25,8 +25,57 @@ solve(map, {x:0,y:0}, {x:1,y:1});
 */
 
 function solve(map, miner, exit) {
-  // TODO
-  return [];
+  var recurse = function(map, miner, exit, moves, visited) {
+    // if the miner is at the exit
+    if(miner.x === exit.x && miner.y === exit.y) {
+      // return the output
+      return moves;
+    // otherwise make a move
+    }
+      // go right
+      if(miner.x < map.length - 1 && map[miner.x + 1][miner.y]) {
+        map[miner.x][miner.y] = false;
+        miner.x++;
+        moves.push('right');
+        return recurse(map, miner, exit, moves, visited);
+        moves.pop();
+        miner.x--;
+        map[miner.x][miner.y] = true;
+      }
+      // go down
+      if(miner.y < map[0].length - 1 && map[miner.x][miner.y + 1]) {
+        map[miner.x][miner.y] = false;
+        miner.y++;
+        moves.push('down');
+        return recurse(map, miner, exit, moves);
+        moves.pop();
+        miner.y--;
+        map[miner.x][miner.y] = true;
+      }
+      // go left
+      if(miner.x > 0 && map[miner.x - 1][miner.y]) {
+        map[miner.x][miner.y] = false;
+        miner.x--;
+        moves.push('left');
+        return recurse(map, miner, exit, moves, visited);
+        moves.pop();
+        miner.x++;
+        map[miner.x][miner.y] = true;
+      }
+      // go up
+      if(miner.y > 0 && map[miner.x][miner.y - 1]) {
+        map[miner.x][miner.y] = false;
+        miner.y--;
+        moves.push('up');
+        return recurse(map, miner, exit, moves, visited);
+        moves.pop();
+        miner.y++;
+        map[miner.x][miner.y] = true;
+      }
+      return moves;
+    }
+
+  return recurse(map, miner, exit, []);
 }
 var map = [[true]];
 console.log(solve(map, {x:0,y:0}, {x:0,y:0})); // [] returns an empty array since miner is at exit
@@ -34,3 +83,12 @@ var map = [[true, false],
            [true, true]];
 console.log(solve(map, {x:0,y:0}, {x:1,y:0})); // ['right'] 
 console.log(solve(map, {x:0,y:0}, {x:1,y:1})); // ['right', 'down']
+var map = [[true], [true], [true], [true]];
+console.log(solve(map, {x:0,y:0}, {x:3,y:0})); // ['right', 'right', 'right']
+console.log(solve(map, {x:3,y:0}, {x:0,y:0})); // ['left', 'left', 'left']
+
+// SO CONFUSING BUT! 
+// 'down' === right
+// 'right' === down
+// 'up' === left
+// 'left' === up
