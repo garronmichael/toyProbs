@@ -43,6 +43,9 @@ function countLetters(word) {
     var re = new RegExp(char, 'gi');
     obj[char] = word.match(re).length;
   }
+  for(var j = 97; j < 123; j++) {
+    obj[String.fromCharCode(j)] = obj[String.fromCharCode(j)] || 0; 
+  }
   return [obj, word];
 }
 
