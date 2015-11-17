@@ -40,7 +40,68 @@ would be encoded this way:
 */
 
 function getStartTime(schedules, duration) {
-  // TODO
+
+  timeToMinutes = function(timeString) {
+    var hours = parseInt(timeString.slice(0, 2)) * 60;
+    var minutes = parseInt(timeString.slice(3));
+    return hours + minutes;
+  }
+    // loop solution
+    // set first schedule as master schedule
+    // var masterSchedule = schedules[0];
+    // // consolidate all schedules into a master schedule
+    // // for every schedule
+    // for(let i = 1; i < schedules.length; i++) {
+    //   var schedule = schedules[i];
+    //   // for every appointment
+    //   for(let j = 0; j < schedule.length; j++) {
+    //     var appointment = schedule[j];
+    //     var startTime = appointment[0];
+    //     var endTime = appointment[1];
+    //     // if the start time is within an existing time block
+    //     if(timeToMinutes(startTime))
+    //       // extend the appointment
+
+    //   // using other schedules extend existing time blocks or add new blocks
+        
+    //   }
+    // }
+
+    // reduce solution
+    var masterSchedule = schedules.reduce( (a, b) => {
+      b.forEach( (appointmentB) => {
+        var startTimeB = appointmentB[0];
+        var endTimeB = appointmentB[1];
+        a.forEach( (appointmentA, idxA, scheduleA) => {
+          var startTimeA = appointmentA[0];
+          var endTimeA = appointmentA[1];
+          // if there is an appointment that starts within a block and ends later
+          if(timeToMinutes(startTimeB) > timeToMintues(startTimeA) && timeToMinutes(endTimeB) > timeToMinutes(endTimeA)) {
+            // change the endTimeA
+            scheduleA[idxA][1] = endTimeB;
+            return;
+          // if there is an appointment that ends within a block and starts earlier
+          } else if(timetoMinutes(endTimeB) < timeToMinutes(endTimeA) && timeToMinutes(startTimeB) < timeToMinutes(startTimeA)) {
+            // change startTimeA
+            scheduleA[idxA][0] = startTimeB;
+            return;
+          // if there is an appointment that starts earlier and ends later
+          } else if(timeToMinutes(startTimeB) < timeToMinutes(startTimeA) && timeToMinutes(endTimeB) > timeToMinutes(endTimeA)) {
+            // chnage startTimeA and endTimeA
+            scheduleA[idxA][0] = startTimeB;
+            scheduleA[idxA][1] = endTimeB;
+            return;
+          // otherwise create a new block
+          } else {
+            a.push([startTimeB, endTimeB]);
+          }
+        });
+      });
+      return a.sort();
+    });
+  // iterate over schedule to determine free block times and durations
+  // return the first free block of the given duration from 9:00 - 19:00
+  return masterSchedule;
 }
 
 var schedules = [
