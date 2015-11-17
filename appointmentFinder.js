@@ -48,41 +48,55 @@ function getStartTime(schedules, duration) {
   }
 
     // reduce solution
-    var masterSchedule = schedules.reduce( function(a, b) {
-      b.forEach( function(appointmentB) {
-        var startTimeB = appointmentB[0];
-        var endTimeB = appointmentB[1];
-        a.forEach( function(appointmentA, idxA, scheduleA) {
-          var startTimeA = appointmentA[0];
-          var endTimeA = appointmentA[1];
-          // if there is an appointment that starts within a block and ends later
-          if(timeToMinutes(startTimeB) > timeToMinutes(startTimeA) && timeToMinutes(startTimeB) < timeToMinutes(endTimeA) && timeToMinutes(endTimeB) > timeToMinutes(endTimeA)) {
-            // change the endTimeA
-            scheduleA[idxA][1] = endTimeB;
-            return;
-          // if there is an appointment that ends within a block and starts earlier
-          } else if(timeToMinutes(endTimeB) < timeToMinutes(endTimeA) && timeToMinutes(endTimeB) > timeToMinutes(startTimeA) && timeToMinutes(startTimeB) < timeToMinutes(startTimeA)) {
-            // change startTimeA
-            scheduleA[idxA][0] = startTimeB;
-            return;
-          // if there is an appointment that starts earlier and ends later
-          } else if(timeToMinutes(startTimeB) < timeToMinutes(startTimeA) && timeToMinutes(endTimeB) > timeToMinutes(endTimeA)) {
-            // chnage startTimeA and endTimeA
-            scheduleA[idxA][0] = startTimeB;
-            scheduleA[idxA][1] = endTimeB;
-            return;
-          // otherwise create a new block
-          // always start with longest schedule
-          } else {
-            // a.push([startTimeB, endTimeB]);
-          }
-        });
+  var output;
+  var masterSchedule = schedules.reduce( function(a, b) {
+    b.forEach( function(appointmentB) {
+      var startTimeB = appointmentB[0];
+      var endTimeB = appointmentB[1];
+      a.forEach( function(appointmentA, idxA, scheduleA) {
+        var startTimeA = appointmentA[0];
+        var endTimeA = appointmentA[1];
+        // if there is an appointment that starts within a block and ends later
+        if(timeToMinutes(startTimeB) > timeToMinutes(startTimeA) && timeToMinutes(startTimeB) < timeToMinutes(endTimeA) && timeToMinutes(endTimeB) > timeToMinutes(endTimeA)) {
+          // change the endTimeA
+          scheduleA[idxA][1] = endTimeB;
+          return;
+        // if there is an appointment that ends within a block and starts earlier
+        } else if(timeToMinutes(endTimeB) < timeToMinutes(endTimeA) && timeToMinutes(endTimeB) > timeToMinutes(startTimeA) && timeToMinutes(startTimeB) < timeToMinutes(startTimeA)) {
+          // change startTimeA
+          scheduleA[idxA][0] = startTimeB;
+          return;
+        // if there is an appointment that starts earlier and ends later
+        } else if(timeToMinutes(startTimeB) < timeToMinutes(startTimeA) && timeToMinutes(endTimeB) > timeToMinutes(endTimeA)) {
+          // chnage startTimeA and endTimeA
+          scheduleA[idxA][0] = startTimeB;
+          scheduleA[idxA][1] = endTimeB;
+          return;
+        // otherwise create a new block
+        // always start with longest schedule
+        } else {
+          // a.push([startTimeB, endTimeB]);
+        }
       });
-      return a.sort();
     });
-  // iterate over schedule to determine free block times and durations
-  // return the first free block of the given duration from 9:00 - 19:00
-  return masterSchedule;
+    return a.sort();
+  });
+  // for every blocked out time
+  for(var i = 0; i < masterSchedule.length; i++) {
+    var a = masterSchedule[i],
+        b = masterSchedule[i + 1] || ['19:00', '19:00'],
+        startTimeA = a[0],
+        endTimeA = a[1],
+        startTimeB = b[0],
+        endTimeB = b[1];
+    // if there is ever a time slot that matches or exceeds our desired duration
+    if(timeToMinutes(startTimeB) - timeToMinutes(endTimeA) >= duration) {
+      // return the end time of the last obligation
+      return endTimeA;
+    }
+  }
+  // otherwise return null
+  return null;
 }
 
 var schedules = [
@@ -92,7 +106,7 @@ var schedules = [
 ];
 
 console.log(getStartTime(schedules, 60)); // '12:15'
-// console.log(getStartTime(schedules, 90)); // null
+console.log(getStartTime(schedules, 90)); // null
 
 
 
