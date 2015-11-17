@@ -47,8 +47,7 @@ function getStartTime(schedules, duration) {
     return hours + minutes;
   }
 
-    // reduce solution
-  var output;
+  // reduce solution
   var masterSchedule = schedules.reduce( function(a, b) {
     b.forEach( function(appointmentB) {
       var startTimeB = appointmentB[0];
@@ -82,6 +81,7 @@ function getStartTime(schedules, duration) {
     return a.sort();
   });
   // for every blocked out time
+  console.log(masterSchedule);
   for(var i = 0; i < masterSchedule.length; i++) {
     var a = masterSchedule[i],
         b = masterSchedule[i + 1] || ['19:00', '19:00'],
@@ -89,6 +89,9 @@ function getStartTime(schedules, duration) {
         endTimeA = a[1],
         startTimeB = b[0],
         endTimeB = b[1];
+    if(timeToMinutes(startTimeA) - timeToMinutes('09:00') >= duration) {
+      return '9:00';
+    }
     // if there is ever a time slot that matches or exceeds our desired duration
     if(timeToMinutes(startTimeB) - timeToMinutes(endTimeA) >= duration) {
       // return the end time of the last obligation
@@ -105,8 +108,15 @@ var schedules = [
   [['11:30', '12:15'], ['15:00', '16:30'], ['17:45', '19:00']]
 ];
 
-console.log(getStartTime(schedules, 60)); // '12:15'
-console.log(getStartTime(schedules, 90)); // null
+// console.log(getStartTime(schedules, 60)); // '12:15'
+// console.log(getStartTime(schedules, 90)); // null
+
+var schedules = [ 
+[ [ '10:00', '13:00' ], [ '14:00', '17:00' ], [ '18:00', '19:00' ] ],
+[ [ '10:00', '11:00' ], [ '12:00', '13:00' ], [ '14:00', '15:00' ], [ '16:00', '17:00' ], [ '18:00', '19:00' ] ] 
+];
+
+console.log(getStartTime(schedules, 60)); // '9:00' wanted but got 11:00
 
 
 
