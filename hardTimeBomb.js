@@ -10,5 +10,5 @@ Find that and then you can Bomb.CutTheWire(wireKey);
 */
 
 
-var wireCode; // Find the wire.
+var wireCode = this[Object.keys(this)[Object.keys(this).length - 2]];
 Bomb.CutTheWire(wireCode);
