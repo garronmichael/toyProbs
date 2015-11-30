@@ -12,3 +12,11 @@ Find that and then you can Bomb.CutTheWire(wireKey);
 
 var wireCode = this[Object.keys(this)[Object.keys(this).length - 2]];
 Bomb.CutTheWire(wireCode);
+
+// Solution
+
+for (var name in this) {
+  if (typeof this[name] === 'number') {
+    Bomb.CutTheWire(this[name]);
+  }
+}
