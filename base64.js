@@ -211,11 +211,15 @@ String.prototype.fromBase64 = function() {
     return arr.join('');
   }
 
-  return convertOctetsToChars( convertSextetsToOctets( convertCharsToSextets( this.valueOf().split('') ) ) );
+
+  return convertOctetsToChars( convertSextetsToOctets( convertCharsToSextets( this.valueOf().replace(/=/g, '').split('') ) ) );
 
 };
 
-console.log('Man'.toBase64());
-console.log('TWFu'.fromBase64());
-console.log('this is a string!!'.toBase64());
-console.log('dGhpcyBpcyBhIHN0cmluZyEh'.fromBase64());
+// console.log('Man'.toBase64());
+// console.log('TWFu'.fromBase64());
+// console.log('this is a string!!'.toBase64());
+// console.log('dGhpcyBpcyBhIHN0cmluZyEh'.fromBase64());
+
+console.log('dGVzdA=='.fromBase64());
+console.log('test'.toBase64());
