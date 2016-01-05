@@ -24,11 +24,20 @@ Output:
 The index N such as the side to the left of N is equal to the side to the right of N. If you do not find an index that fits these rules, then you will return -1.
 
 */
+'use strict'
 
 function findEvenIndex(arr) {
-  //Code goes here!
+  for(let i = 0, length = arr.length; i < length; i++) {
+    let rightSum = arr.slice(i + 1, length).reduce( (a, b) => { return a + b; }, 0 ),
+        leftSum = arr.slice(0, i).reduce( (a, b) => { return a + b; }, 0 );
+    if(rightSum === leftSum) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 console.log(findEvenIndex([1,2,3,4,3,2,1])); // 3
 console.log(findEvenIndex([1,100,50,-51,1,1])); // 1
 console.log(findEvenIndex([1,2,3,4,5,6])); // -1
+
