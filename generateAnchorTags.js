@@ -17,7 +17,11 @@ A string of HTML containing an anchor tag for each element of menuItems (with th
 */
 
 function generateMenu (menuItems) {
-
+  var output = '';
+  menuItems.forEach( item => {
+    output += `<a href="${item.url}">${item.text}</a>`;
+  });
+  return output;
 }
 
 
