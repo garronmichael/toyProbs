@@ -53,3 +53,22 @@ console.log( generateMenu(inputs.slice(0,1)) ); // '<a href=\"http://www.google.
 console.log( generateMenu( inputs.slice(1,2) ) ); // '<a href=\"#codewars\">codewars</a>'
 console.log(generateMenu( inputs.slice(2,4) ) ); // '<a href=\"#q\">query</a><a href=\"#a\">ans</a>'
 console.log( generateMenu( inputs.slice(4) ) ); // '<a href=\"#123\">123</a>'
+
+// Solution 1
+
+function generateMenu (menuItems) {
+  if (menuItems.length == 0)
+    return "";
+  else {
+  var result = "";
+    for (var i = 0; i < menuItems.length; i++) {
+      result += "<a href=\"" + menuItems[i].url + "\">" + menuItems[i].text + "</a>";
+      }
+    return result;
+  }
+}
+
+// Solution 2
+
+const generateMenu = menuItems =>
+  menuItems.map(({url, text}) => `<a href="${ url }">${ text }</a>`).join('');
