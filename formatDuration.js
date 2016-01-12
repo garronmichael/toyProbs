@@ -28,6 +28,26 @@ For the purpose of this Kata, a year is 365 days and a day is 24 hours.
 
 */
 
-function formatDuration (seconds) {
-  // Complete this function
+function formatDuration (s) {
+  var secondsPer = {'year': 60 * 60 * 24 * 365, 'day': 60 * 60 * 24, 'hour': 60 * 60, 'minute': 60, 'second': 1}
+
+  var years = Math.floor(s/secondsPer.year);
+  var yearLabel = years > 1 ? 'years,' : 'year,';
+  s -= years * secondsPer.year;
+  var days = Math.floor(s/secondsPer.day);
+  var dayLabel = days > 1 ? 'days,' : 'day,';
+  s -= days * secondsPer.day;
+  var minutes = Math.floor(s/secondsPer.minute);
+  var minuteLabel = minutes > 1 ? 'minutes,' : 'minute,';
+  s -= minutes * secondsPer.minute;
+          // have num of s
+  var seconds = s;
+  var secondLabel = s > 1 ? 'seconds,' : 'second,';
+
+  return `${years} ${yearLabel} ${days} ${dayLabel} ${minutes} ${minuteLabel} and ${seconds} ${secondLabel}`
 }
+
+
+console.log(formatDuration(1)); // "1 second"
+console.log(formatDuration(62)); // "1 minute and 2 seconds"
+console.log(formatDuration(120)); // "2 minutes"
