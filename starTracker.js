@@ -10,7 +10,13 @@ In this kata, you have to write a program that matches star tracker camera data 
 
 The catalog data has been converted to points on the unit sphere (rather than the customary RA/DEC that astronomers use)
 The star tracker data has also been converted to points on the unit sphere, only using coordinates relative to the spacecraft's pose
-This program expects you to define a StarTracker object, which takes a catalog argument in its constructor, which is an array of 3D unit vectors representing stars. It also needs a matches method, which takes another array of unit vectors called observations, and outputs pairs [c,o], where c is a star in the catalog and o is the corresponding star in observations.
+
+**
+This program expects you to define a StarTracker object, which takes a catalog argument in its constructor, 
+which is an array of 3D unit vectors representing stars. 
+It also needs a matches method, which takes another array of unit vectors called observations, 
+and outputs pairs [c,o], where c is a star in the catalog and o is the corresponding star in observations.
+**
 
 The test data is synthetic and ideal; your program should return a 1-1 correspondence between the star catalog and the observed stars.
 
@@ -56,11 +62,16 @@ Returns:
 */
 
 function StarTracker(catalog) {
-  // TODO: Program Me
+  // idea 1: I think the way this kata works is that the star tracker's origin coordinates
+  // have shifted. I need to use the catalog and observations to determine the new origin coordinates
+  // at which point I can then match the catalog with the observations
+  // this.coords = [0, 0, 0];
+  this.catalog = catalog;
 }
 
 StarTracker.prototype.matches = function(observations) {
-  // TODO: Program Me
+  var output = [];
+  return output;
 };
 
 var catalog = [
@@ -102,5 +113,5 @@ var answer = new StarTracker(catalog)
   .map(JSON.stringify)
   .sort()
   .map(JSON.parse);
-  
+
 console.log( JSON.stringify(answer) == JSON.stringify(solution) ); // should return true;
