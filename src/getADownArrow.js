@@ -33,12 +33,7 @@ function getADownArrow(n, output) {
   var output = '' || output;
   // add a sequential number from 1 to 0 for  n
   // repeat with n - 1
-  while(n > -1) {
-    // add 1 through 9
-    for(var i = 1; i < 10; i++) {
-      output += i
-    }
-    output += '0';
-  }
+
+  return output;
 
 }
