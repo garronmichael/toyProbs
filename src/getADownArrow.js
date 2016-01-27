@@ -29,8 +29,8 @@ Note: There are spaces for the indentation on the left of each line and no space
 Have fun!
 */
 
-function getADownArrow(n, output) {
-  var output = '' || output;
+function getADownArrow(n) {
+  var output = '';
   // add a sequential number from 1 to 0 for  n
   // repeat with n - 1
 
