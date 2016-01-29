@@ -13,3 +13,8 @@ If you've completed this one and you feel like testing your performance tuning o
 AlgorithmsArrays
 
 */
+
+function smaller() {
+  var output = [];
+  return output;
+}
