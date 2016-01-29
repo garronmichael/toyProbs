@@ -14,7 +14,10 @@ AlgorithmsArrays
 
 */
 
-function smaller() {
-  var output = [];
-  return output;
+function smaller(arr = []) {
+  // for each value in the array
+    // for each of the following values
+      // count the number of values that are less than the current value
+      // add the count to the output array 
+  return arr;
 }
