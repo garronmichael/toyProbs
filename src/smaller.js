@@ -15,9 +15,24 @@ AlgorithmsArrays
 */
 
 function smaller(arr = []) {
-  // for each value in the array
-    // for each of the following values
-      // count the number of values that are less than the current value
       // add the count to the output array 
-  return arr;
+  // for each value in the array
+  return arr.map( (v, i, a) => {
+    let count = 0;
+    let curVal = v;
+    
+    // for each of the following values
+    for(let j = i; j < a.length; j++) {
+      let nextVal = a[j];
+      // if the current value is greater than the next value
+      if(curVal > nextVal) {
+        // increment count
+        count++;
+      }
+    }
+    // set the value to count
+    return count;
+  });
 }
+
+console.log(smaller([5,4,3,2,1]));
