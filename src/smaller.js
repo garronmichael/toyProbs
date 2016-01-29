@@ -36,3 +36,7 @@ function smaller(arr = []) {
 }
 
 console.log(smaller([5,4,3,2,1]));
+
+// WOW
+
+const smaller = nums => nums.map((x, i) => nums.slice(i).filter(y => x > y).length);
