@@ -29,3 +29,7 @@ it floats to the top and to the left.
 
 */
 
+function separateLiquids(glass) {
+
+  return glass;
+}
